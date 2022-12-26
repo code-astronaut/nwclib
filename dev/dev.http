@@ -1,0 +1,10 @@
+### Create web component
+POST http://localhost:8080/webcomponents
+Content-Type: application/json
+
+{
+  "name": "Button1",
+  "description": "A simple button",
+  "script": "script",
+  "image": "image"
+}

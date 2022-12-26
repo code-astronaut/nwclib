@@ -3,7 +3,6 @@ package io.scits.nwclib.service;
 import io.scits.nwclib.controller.dto.WebComponentDto;
 import io.scits.nwclib.exception.WebComponentNotFoundException;
 import io.scits.nwclib.model.WebComponentEntity;
-import io.scits.nwclib.model.WebComponentImageEntity;
 import io.scits.nwclib.model.WebComponentMapper;
 import io.scits.nwclib.repository.WebComponentRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -28,35 +25,16 @@ public class WebComponentServiceImpl implements WebComponentService {
     private final WebComponentMapper webComponentMapper;
 
     @Override
-    public WebComponentDto createWebComponent(WebComponentDto createData, MultipartFile multipartFile) {
+    public WebComponentDto createWebComponent(WebComponentDto createData) {
         WebComponentEntity newWebComponent = WebComponentEntity
                 .builder()
-                .title(createData.getTitle())
+                .name(createData.getName())
                 .description(createData.getDescription())
                 .script(createData.getScript())
+                .image(createData.getImage())
                 .build();
 
-        saveImage(newWebComponent, multipartFile);
-
         return webComponentMapper.toDto(webComponentRepository.save(newWebComponent));
-    }
-
-    private void saveImage(WebComponentEntity newWebComponent,
-                            MultipartFile multipartFile) {
-        createWebComponentImageFromMultipartFile(newWebComponent, multipartFile);
-    }
-
-    private void createWebComponentImageFromMultipartFile(WebComponentEntity newWebComponent,
-                                                          MultipartFile multipartFile) {
-        try {
-            WebComponentImageEntity.builder()
-                    .imageData(multipartFile.getBytes())
-                    .webComponentEntity(newWebComponent)
-                    .build();
-        } catch (IOException e) {
-            // create better exception
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
@@ -83,7 +61,7 @@ public class WebComponentServiceImpl implements WebComponentService {
 
         webComponentEntity.setDescription(updateData.getDescription());
         webComponentEntity.setScript(updateData.getScript());
-        webComponentEntity.setTitle(updateData.getTitle());
+        webComponentEntity.setName(updateData.getName());
 
         return webComponentMapper.toDto(webComponentRepository.save(webComponentEntity));
     }
@@ -100,8 +78,8 @@ public class WebComponentServiceImpl implements WebComponentService {
             webComponentEntity.setDescription(patchData.getDescription());
         }
 
-        if (patchData.getTitle() != null) {
-            webComponentEntity.setTitle(patchData.getTitle());
+        if (patchData.getName() != null) {
+            webComponentEntity.setName(patchData.getName());
         }
 
         return webComponentMapper.toDto(webComponentRepository.save(webComponentEntity));

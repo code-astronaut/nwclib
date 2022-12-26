@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,28 +13,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "WEBCOMPONENT")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class WebComponentEntity {
 
-    @Builder
-    public WebComponentEntity(String title, String description, String script, String thumbnail) {
-        this.title = title;
-        this.description = description;
-        this.script = script;
-        this.thumbnail = thumbnail;
-    }
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title", unique = true)
     private String title;
 
     @Column(name = "description")
@@ -42,7 +37,15 @@ public class WebComponentEntity {
     @Column(name = "script")
     private String script;
 
-    @Column(name = "thumbnail")
-    private String thumbnail;
+    @OneToMany(mappedBy = "webComponentImageEntity")
+    private List<WebComponentImageEntity> webComponentImageEntityList;
+
+    public void addWebComponentImages(List<WebComponentImageEntity> webComponentImageEntityList) {
+        this.getWebComponentImageEntityList().addAll(webComponentImageEntityList);
+    }
+
+    public void removeWebComponentImage(WebComponentImageEntity webComponentImageEntity) {
+        this.getWebComponentImageEntityList().remove(webComponentImageEntity);
+    }
 
 }

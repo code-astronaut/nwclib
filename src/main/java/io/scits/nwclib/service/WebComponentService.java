@@ -1,12 +1,13 @@
 package io.scits.nwclib.service;
 
 import io.scits.nwclib.controller.dto.WebComponentDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface WebComponentService {
 
-    WebComponentDto createWebComponent(WebComponentDto createData);
+    WebComponentDto createWebComponent(WebComponentDto createData, MultipartFile multipartFile);
 
     WebComponentDto getWebComponent(Long id);
 

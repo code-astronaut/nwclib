@@ -10,6 +10,4 @@ public class WebComponentDto {
     private String description;
 
     private String script;
-
-    private String thumbnail;
 }

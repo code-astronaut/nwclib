@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,8 +26,9 @@ public class WebComponentController {
     private final WebComponentService webComponentService;
 
     @PostMapping
-    public ResponseEntity<WebComponentDto> createWebComponent(WebComponentDto createData) {
-        WebComponentDto webComponent = webComponentService.createWebComponent(createData);
+    public ResponseEntity<WebComponentDto> createWebComponent(@RequestBody WebComponentDto createData,
+                                                              @RequestParam("multipartFile") MultipartFile multipartFile) {
+        WebComponentDto webComponent = webComponentService.createWebComponent(createData, multipartFile);
         return new ResponseEntity<>(webComponent, HttpStatus.CREATED);
     }
 
@@ -52,7 +54,7 @@ public class WebComponentController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<WebComponentDto> patchWebComponent(@PathVariable("id") Long id,
-                                               @RequestBody WebComponentDto patchData) {
+                                                             @RequestBody WebComponentDto patchData) {
         WebComponentDto webComponent = webComponentService.patchWebComponent(id, patchData);
         return ResponseEntity.ok(webComponent);
     }

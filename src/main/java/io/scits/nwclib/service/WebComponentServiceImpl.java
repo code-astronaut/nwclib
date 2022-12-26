@@ -25,6 +25,7 @@ public class WebComponentServiceImpl implements WebComponentService {
     private final WebComponentMapper webComponentMapper;
 
     @Override
+    @Transactional
     public WebComponentDto createWebComponent(WebComponentDto createData) {
         WebComponentEntity newWebComponent = WebComponentEntity
                 .builder()

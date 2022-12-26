@@ -6,7 +6,9 @@ import io.scits.nwclib.service.WebComponentService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -21,17 +23,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = WebComponentController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class WebComponentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @MockBean
-    private WebComponentService webComponentService;
 
     @Test
     void createWebComponent_mustWork() throws Exception {
@@ -43,8 +42,6 @@ class WebComponentControllerTest {
                 .image("image")
                 .build();
 
-        when(webComponentService.createWebComponent(any())).thenReturn(webComponent);
-
         mockMvc.perform(post("/webcomponents")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(webComponent)))
@@ -54,9 +51,5 @@ class WebComponentControllerTest {
                 .andExpect(jsonPath("$.description").value(webComponent.getDescription()))
                 .andExpect(jsonPath("$.script").value(webComponent.getScript()))
                 .andExpect(jsonPath("$.image").value(webComponent.getImage()));
-
-        verify(webComponentService, times(1)).createWebComponent(webComponent);
-
-
     }
 }

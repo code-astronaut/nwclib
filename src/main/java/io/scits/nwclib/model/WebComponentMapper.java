@@ -6,4 +6,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface WebComponentMapper {
     WebComponentDto toDto(WebComponentEntity webComponentEntity);
+    WebComponentEntity toEntity(WebComponentDto webComponentDto);
 }

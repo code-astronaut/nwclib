@@ -1,6 +1,7 @@
 package io.scits.nwclib.service;
 
 import io.scits.nwclib.controller.dto.WebComponentDto;
+import io.scits.nwclib.exception.WebComponentNameNotAvailableException;
 import io.scits.nwclib.exception.WebComponentNotFoundException;
 import io.scits.nwclib.model.WebComponentEntity;
 import io.scits.nwclib.model.WebComponentMapper;
@@ -35,6 +36,11 @@ public class WebComponentServiceImpl implements WebComponentService {
                 .image(createData.getImage())
                 .build();
 
+        boolean webComponentExistsByName = webComponentRepository.existsByName(createData.getName());
+        if (webComponentExistsByName) {
+            throw createWebComponentNameNotAvailableException(createData.getName());
+        }
+
         return webComponentMapper.toDto(webComponentRepository.save(newWebComponent));
     }
 
@@ -57,6 +63,7 @@ public class WebComponentServiceImpl implements WebComponentService {
     }
 
     @Override
+    @Transactional
     public WebComponentDto updateWebComponent(Long id, WebComponentDto updateData) {
         WebComponentEntity webComponentEntity = webComponentRepository.findById(id).orElseThrow(() -> createWebComponentNotFoundException(id));
 
@@ -68,6 +75,7 @@ public class WebComponentServiceImpl implements WebComponentService {
     }
 
     @Override
+    @Transactional
     public WebComponentDto patchWebComponent(Long id, WebComponentDto patchData) {
         WebComponentEntity webComponentEntity = webComponentRepository.findById(id).orElseThrow(() -> createWebComponentNotFoundException(id));
 
@@ -79,19 +87,24 @@ public class WebComponentServiceImpl implements WebComponentService {
             webComponentEntity.setDescription(patchData.getDescription());
         }
 
-        if (patchData.getName() != null) {
-            webComponentEntity.setName(patchData.getName());
+        if (patchData.getImage() != null) {
+            webComponentEntity.setImage(patchData.getImage());
         }
 
         return webComponentMapper.toDto(webComponentRepository.save(webComponentEntity));
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         webComponentRepository.deleteById(id);
     }
 
     private WebComponentNotFoundException createWebComponentNotFoundException(Long id) {
         return new WebComponentNotFoundException(format("WebComponent with id %s not found!", id));
+    }
+
+    private WebComponentNameNotAvailableException createWebComponentNameNotAvailableException(String webComponentName) {
+        return new WebComponentNameNotAvailableException(format("WebComponent with name %s is not available!", webComponentName));
     }
 }

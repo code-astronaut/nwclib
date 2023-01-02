@@ -1,0 +1,14 @@
+[
+  {
+    "name": "button1",
+    "description": "A simple button",
+    "scriptPath": "js/web-components/buttons/nwclib-button1.js",
+    "imagePath": "img/web-components/buttons/button1-thumbnail.png"
+  },
+  {
+    "name": "button2",
+    "description": "Another button",
+    "scriptPath": "js/web-components/buttons/nwclib-button2.js",
+    "imagePath": "img/web-components/buttons/button2-thumbnail.png"
+  }
+]

@@ -19,7 +19,7 @@ repositories {
 	mavenCentral()
 }
 
-node {
+/*node {
 	// Version of node to use.
 	version = '16.15.1'
 
@@ -66,12 +66,14 @@ task copyFrontendToBuild(type: Copy) {
 processResources{
 	dependsOn 'copyFrontendToBuild'
 }
+*/
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	implementation 'org.apache.commons:commons-lang3'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'

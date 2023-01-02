@@ -13,7 +13,17 @@ import java.util.List;
 @RequestMapping("webcomponents")
 @RequiredArgsConstructor
 public class WebComponentController {
+
     private final WebComponentService webComponentService;
+
+    @GetMapping
+    public ResponseEntity<List<WebComponentDto>> getWebComponents(@RequestParam(defaultValue = "0") Integer pageNumber,
+                                                                  @RequestParam(defaultValue = "1") Integer pageSize) {
+        List<WebComponentDto> webComponents = webComponentService.getWebComponents(pageNumber, pageSize);
+        return ResponseEntity.ok(webComponents);
+    }
+
+    /*private final WebComponentService webComponentService;
 
     @PostMapping
     public ResponseEntity<WebComponentDto> createWebComponent(@RequestBody WebComponentDto createData) {
@@ -53,5 +63,7 @@ public class WebComponentController {
         webComponentService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+     */
 
 }

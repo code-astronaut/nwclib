@@ -1,0 +1,8 @@
+[
+  {
+    "name": "form1",
+    "description": "A simple form",
+    "scriptPath": "js/web-components/forms/nwclib-form1.js",
+    "imagePath": "img/web-components/forms/form1-thumbnail.png"
+  }
+]

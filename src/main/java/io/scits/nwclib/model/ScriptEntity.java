@@ -8,35 +8,26 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "nwclib_webcomponent")
+@Table(name ="nwclib_script")
 @Getter
 @Setter
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WebComponentEntity {
+public class ScriptEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", unique = true)
-    private String name;
-
     @Lob
-    @Column(name = "description")
-    private String description;
+    @Column(name = "content", columnDefinition = "CLOB", nullable = false)
+    private String content;
 
     @ToString.Exclude
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "script_id")
-    private ScriptEntity script;
-
-    @ToString.Exclude
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "thumbnail_id")
-    private ThumbnailEntity thumbnail;
+    @OneToOne(mappedBy = "script")
+    private WebComponentEntity webComponent;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -45,5 +36,4 @@ public class WebComponentEntity {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-
 }

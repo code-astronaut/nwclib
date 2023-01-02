@@ -18,7 +18,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 
-@Service
+/*@Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class WebComponentServiceImpl implements WebComponentService {
@@ -107,4 +107,4 @@ public class WebComponentServiceImpl implements WebComponentService {
     private WebComponentNameNotAvailableException createWebComponentNameNotAvailableException(String webComponentName) {
         return new WebComponentNameNotAvailableException(format("WebComponent with name %s is not available!", webComponentName));
     }
-}
+}*/

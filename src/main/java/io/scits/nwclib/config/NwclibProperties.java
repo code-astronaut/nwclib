@@ -9,5 +9,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("nwclib")
 public class NwclibProperties {
 
-    private String webComponentsLocationPattern = "classpath:js/web-components/*.js";
+    private String webComponentDataLocationPattern = "classpath:data/web-components/*.json";
 }
